@@ -67,21 +67,8 @@
       gitsrc = pkgs.fetchFromGitHub {
         owner = "wayland-transpositor";
         repo = "wprs";
-        rev = "f9608b3f933409211b6d51b4477faf93de2924a4";
-        sha256 = "sha256-UjJHAe5ijvBYSnRBWGU8dRarGloUdTIoTXO2lEnA1zA=";
-      };
-      patchedCargoLock = pkgs.stdenv.mkDerivation {
-        src = gitsrc;
-        name = "patch-cargo-lock";
-        patches = [
-          ./update-cargo-lock.patch
-        ];
-        installPhase = ''
-          runHook preInstall
-          mkdir -p $out
-          cp Cargo.lock $out
-          runHook postInstall
-        '';
+        rev = "a2cb745a9491857bcb9d419a4dfac90572d4c89e";
+        sha256 = "sha256-7isqsu7iJEi4TpE8TwC56TWQWCkaIN0lfc/UHPNkSZ8=";
       };
       src = lib.cleanSourceWith {
         src = gitsrc; # The original, unfiltered source
@@ -91,13 +78,6 @@
       commonArgs = {
         inherit src;
         strictDeps = true;
-        cargoVendorDir = craneLib.vendorCargoDeps {
-          src = patchedCargoLock;
-        };
-        patches = [
-          ./update-cargo-lock.patch
-        ];
-
         nativeBuildInputs = buildDeps;
         buildInputs = runtimeDeps;
         doCheck = false;
